@@ -73,24 +73,32 @@ Pastikan container parking_db sudah berjalan.
 
 2. Install Library
 Install semua kebutuhan Python:
-``` pip install -r requirements.txt ```
+```
+pip install -r requirements.txt
+```
 
-3. Jalankan Simulator (ETL)
+4. Jalankan Simulator (ETL)
 Buka terminal baru dan jalankan simulasi sensor. Script ini harus tetap berjalan agar data terus terupdate.
+```
 python etl/simulator.py
+```
 Output: Anda akan melihat log update status parkir setiap detik di terminal.
 
-4. Jalankan Dashboard
+5. Jalankan Dashboard
 Buka terminal baru lagi untuk menjalankan visualisasi web:
+```
 streamlit run dashboard/app.py
+```
 Akses dashboard di browser: http://localhost:8501
 
-5. Jalankan API (Opsional)
+6. Jalankan API (Opsional)
 Jika ingin mengakses data via JSON untuk aplikasi HP:
+```
 uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+```
 Dokumentasi API bisa dilihat di: http://localhost:8000/docs
 
-🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 Language: Python
 Data Processing: Pandas
 Database: PostgreSQL
