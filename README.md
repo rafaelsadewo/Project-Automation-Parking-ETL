@@ -100,9 +100,14 @@ Dokumentasi API bisa dilihat di: http://localhost:8000/docs
 
 ## Teknologi yang Digunakan
 Language: Python
+
 Data Processing: Pandas
+
 Database: PostgreSQL
+
 Infrastructure: Docker
+
 Web Framework: Streamlit
+
 API Framework: FastAPI
 ORM: SQLAlchemy
