@@ -36,7 +36,7 @@ def update_activity_log(df_baru):
         # Cek status sebelumnya
         status_lama = st.session_state['last_status'].get(slot_id, "INIT")
         
-        # Jika Status Berubah (Durasi nambah TIDAK dianggap perubahan status)
+        # Perubahan Status
         if status_baru != status_lama and status_lama != "INIT":
             event = ""
             keterangan = ""
@@ -59,7 +59,7 @@ def update_activity_log(df_baru):
                     "keterangan": keterangan
                 })
         
-        # Update memori status terakhir
+        # Update memori
         st.session_state['last_status'][slot_id] = status_baru
         
     if log_entries:
@@ -72,13 +72,12 @@ pilihan_menu = st.sidebar.radio("Pilih Menu:", ["Monitoring Real-Time", "Log Akt
 st.sidebar.markdown("---")
 st.sidebar.info("Sistem Parkir Pintar v1.0\nProject Infrastruktur Data")
 
-# HALAMAN 1: MONITORING
+# MONITORING
 if pilihan_menu == "Monitoring Real-Time":
     st.title("Dashboard Monitoring Parkir")
     placeholder = st.empty()
 
     while True:
-        # Cek perpindahan menu agar loop berhenti jika user pindah halaman
         if st.session_state.get('pilihan_sebelumnya') != pilihan_menu:
             st.session_state['pilihan_sebelumnya'] = pilihan_menu
             st.rerun()
@@ -103,7 +102,7 @@ if pilihan_menu == "Monitoring Real-Time":
                 res = conn.execute(query_analisis).fetchone()
                 total, terisi, kosong, anomali = res[0], res[1], res[2], res[3]
 
-            # Sorting P-1 s/d P-20
+            # Sorting P-1 sampe P-20
             df['sort_key'] = df['slot_id'].apply(lambda x: int(x.split('-')[1]) if '-' in x else 0)
             df = df.sort_values('sort_key')
             
@@ -125,7 +124,7 @@ if pilihan_menu == "Monitoring Real-Time":
                     s_id = row['slot_id']
                     status = row['status']
                     jarak = row['distance_cm']
-                    durasi_detik = row['durasi_menit'] # Nilai aslinya detik
+                    durasi_detik = row['durasi_menit']
                     
                     bg, icon, txt = "#607D8B", "UNK", "Unknown"
                     
@@ -135,7 +134,7 @@ if pilihan_menu == "Monitoring Real-Time":
                         bg = "#C62828"
                         icon = "CAR"
                         
-                        # [FORMAT STOPWATCH REAL-TIME]
+                        # FORMAT STOPWATCH
                         if durasi_detik < 60:
                             txt = f"⏱ {durasi_detik} sec"
                         else:
@@ -150,7 +149,7 @@ if pilihan_menu == "Monitoring Real-Time":
                         html_code = html_card_parkir(s_id, icon, jarak, txt, bg)
                         st.markdown(html_code, unsafe_allow_html=True)
             
-            # Refresh Dashboard setiap 1 detik
+            # Refresh Dashboard
             time.sleep(1)
 
         except Exception as e:
@@ -173,4 +172,5 @@ elif pilihan_menu == "Log Aktivitas":
         else:
             st.warning("Belum ada data aktivitas.")
     except Exception as e:
+
         st.error("Gagal mengambil data log.")
