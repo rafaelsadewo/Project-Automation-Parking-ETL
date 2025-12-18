@@ -35,7 +35,7 @@ def generate_sensor_data():
                 waktu_masuk_kendaraan[slot_key] = current_time
                 distance = random.uniform(15, 25) 
                 status = "TERISI"
-            else: # Kosong
+            else: 
                 distance = random.uniform(26, 200) 
                 status = "KOSONG"
         else:
@@ -46,7 +46,7 @@ def generate_sensor_data():
             else: # Diam
                 waktu_awal = waktu_masuk_kendaraan[slot_key]
                 selisih = current_time - waktu_awal
-                durasi = int(selisih.total_seconds()) # Hitung Detik
+                durasi = int(selisih.total_seconds())
                 
                 distance = random.uniform(15, 25)
                 status = "TERISI"
@@ -90,11 +90,12 @@ try:
         kosong = len(df_realtime[df_realtime['status'] == 'KOSONG'])
         anomali = len(df_realtime[df_realtime['status'] == 'ANOMALI'])
         
-        # OUTPUT TERMINAL
+        # OUTPUT
         timestamp = datetime.now().strftime('%H:%M:%S')
         print(f"[{timestamp}] UPDATE \nKosong : {kosong} | Terisi : {terisi} | Error : {anomali}")
         
         time.sleep(1)
 
 except KeyboardInterrupt:
+
     print("Simulasi berhenti.")
